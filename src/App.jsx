@@ -6,6 +6,8 @@ import { Fragment } from 'react';
 function App() {
   const [tasks,setTasks] = useState([]);
   const inputJebeni = useRef();
+  const editJebeni = useRef();
+
   function clearTasks() {
     setTasks([]);
   }
@@ -15,6 +17,11 @@ function App() {
     setTasks(newTasks);
   }
   
+  function editTask(key) {
+    let taskEdit = tasks.find( task => task.key == key)
+    inputJebeni.current.value = taskEdit.task;          
+  }  
+
   function addTask() {
     if (inputJebeni.current.value) {
       const newTask = {
@@ -44,12 +51,12 @@ function App() {
               <Fragment>
                 <div className="grid grid-cols-2 ">
                   <li key={task.key} className=" text-2xl font-bold
-                  w-[400px]  "> {task.task} </li>
+                  w-[400px]" ref={editJebeni} > {task.task} </li>
                   <div className="">
                     <button className='p-5 m-2 bg-green-800 text-white' 
                     onClick={ () => removeTask(task.key)}>Edit task</button>
                     <button className='p-5 m-2 bg-red-800 text-white' 
-                    onClick={ () => removeTask(task.key)}>Remove task</button>
+                    onClick={ () => editTask(task.key)}>Remove task</button>
                   </div>
                    
                 </div>
